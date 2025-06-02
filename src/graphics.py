@@ -3,32 +3,32 @@ from tkinter import Tk, BOTH, Canvas
 
 class Window:
     def __init__(self, width, height):
-        self.__root = Tk()
-        self.__root.title("Maze Solver")
-        self.__canvas = Canvas(self.__root, bg="white", height=height, width=width)
-        self.__canvas.pack(fill=BOTH, expand=1)
-        self.__running = False
-        self.__root.protocol("WM_DELETE_WINDOW", self.close)
+        self.root = Tk()
+        self.root.title("Maze Solver")
+        self.canvas = Canvas(self.root, bg="white", height=height, width=width)
+        self.canvas.pack(fill=BOTH, expand=1)
+        self.running = False
+        self.root.protocol("WM_DELETE_WINDOW", self.close)
 
         print("window created...")
 
-    def drawLine(self, line, fillColor):
-        line.draw(self.__canvas, fillColor)
+    def drawLine(self, line, fillColor="Black"):
+        line.draw(self.canvas, fillColor)
 
 
     def redraw(self):
-        self.__root.update_idletasks()
-        self.__root.update()
+        self.root.update_idletasks()
+        self.root.update()
 
     def wait_for_close(self):
-        self.__running = True
+        self.running = True
         print("window running...")
-        while self.__running:
+        while self.running:
             self.redraw()
         print("window closed...")
 
     def close(self):
-        self.__running = False
+        self.running = False
 
 class Point:
     def __init__(self, x, y):
@@ -40,7 +40,44 @@ class Line:
         self.p1 = p1
         self.p2 = p2
 
-    def draw(self, canvas, fillColor):
+    def draw(self, canvas, fillColor="Black"):
         canvas.create_line(
             self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fillColor, width=2
         )
+
+class Rect:
+    def __init__(self, window, p1=Point(-1,-1), p2=Point(-1,-1), walls="0000", fillColor="Black"):
+        if len(walls) != 4:
+            raise ValueError(f"Expected length of 4, got {len(walls)}: {walls!r}\n")
+        if any(char not in '01' for char in walls):
+            raise ValueError(f"Invalid characters in string: {binary_str!r}\n")
+
+        self.window = window
+
+        self.fillColor = fillColor
+
+        self.p1 = p1
+        self.p2 = p2
+
+        self.hasNorth = (self.hasWall(walls[0]))
+        self.hasEast = (self.hasWall(walls[1]))
+        self.hasSouth = (self.hasWall(walls[2]))
+        self.hasWest =  (self.hasWall(walls[3]))
+
+    # helper function
+    def hasWall(self, val):
+        return val == '1'
+
+    def draw(self):
+        if self.hasNorth:
+            line = Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y))
+            self.window.drawLine(line, self.fillColor)
+        if self.hasEast:
+            line = Line(Point(self.p2.x, self.p1.y), Point(self.p2.x, self.p2.y))
+            self.window.drawLine(line, self.fillColor)
+        if self.hasSouth:
+            line = Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y))
+            self.window.drawLine(line, self.fillColor)
+        if self.hasWest:
+            line = Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y))
+            self.window.drawLine(line, self.fillColor)
