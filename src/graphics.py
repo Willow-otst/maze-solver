@@ -3,6 +3,9 @@ from tkinter import Tk, BOTH, Canvas
 
 class Window:
     def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
         self.root = Tk()
         self.root.title("Maze Solver")
         self.canvas = Canvas(self.root, bg="white", height=height, width=width)
@@ -46,7 +49,7 @@ class Line:
         )
 
 class Rect:
-    def __init__(self, window, p1=Point(-1,-1), p2=Point(-1,-1), walls="0000", fillColor="Black"):
+    def __init__(self, window, p1=Point(-1,-1), p2=Point(-1,-1), walls="1111", fillColor="Black"):
         if len(walls) != 4:
             raise ValueError(f"Expected length of 4, got {len(walls)}: {walls!r}\n")
         if any(char not in '01' for char in walls):
