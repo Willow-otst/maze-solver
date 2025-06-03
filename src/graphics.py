@@ -59,6 +59,9 @@ class Rect:
         self.p1 = p1
         self.p2 = p2
 
+        # walls = "0000" indicates existing walls
+        # each char can be 0 or 1 -> a 1 means a wall exitsts
+        # they refer to walls in order: NORTH, EAST, SOUTH, WEST
         self.hasNorth = (self.hasWall(walls[0]))
         self.hasEast = (self.hasWall(walls[1]))
         self.hasSouth = (self.hasWall(walls[2]))
@@ -81,3 +84,17 @@ class Rect:
         if self.hasWest:
             line = Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y))
             self.window.drawLine(line, self.fillColor)
+
+    def drawMove(self, toCell, undo=False):
+        line = Line(self.getCenter(), toCell.getCenter())
+        self.window.drawLine(line, "Red" if undo else "Gray")
+
+    def getCenter(self):
+        return Point((self.p1.x + self.p2.x)/2, (self.p1.y + self.p2.y)/2)
+
+
+
+
+
+
+
