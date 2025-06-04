@@ -1,3 +1,4 @@
 *.kate-swp
 *.sh
 __pycache__/
+tests.py

@@ -34,7 +34,7 @@ def main():
     #rects[4].drawMove(rects[5], True)
     #rects[5].drawMove(rects[6], True)
 
-    maze = Maze(win, 100, 100, 200)
+    maze = Maze(win, 10, 10, 10)
     maze.drawCells()
 
     win.wait_for_close()
