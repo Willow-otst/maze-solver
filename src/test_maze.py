@@ -47,6 +47,11 @@ class TestMaze(unittest.TestCase):
         maze.drawCells()
         self.assertGreater(len(self.window.draw_calls), 0)
 
+    # Test Exits are properly created
+    def test_exits_are_created(self):
+        maze = Maze(self.window, 2, 2)
+        self.assertEqual(maze.cells[0][0].hasNorth, False)
+        self.assertEqual(maze.cells[maze.length-1][maze.height-1].hasSouth, False)
 
 if __name__ == "__main__":
     unittest.main()

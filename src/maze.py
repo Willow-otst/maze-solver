@@ -9,7 +9,7 @@ class Maze:
         self.margin = margin
 
         self.cells = self.createCells()
-        #self.createExits()
+        self.createExits()
 
     def createCells(self):
         startPoint = Point(0+self.margin, 0+self.margin)
@@ -35,7 +35,7 @@ class Maze:
         enterance.draw()
 
         #create exit
-        exit = self.cells[self.height-1][self.length-1]
+        exit = self.cells[self.length-1][self.height-1]
         exit.hasSouth = False
         exit.draw()
 
