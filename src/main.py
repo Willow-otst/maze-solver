@@ -36,6 +36,7 @@ def main():
 
     maze = Maze(win, 10, 10, 10)
     maze.drawCells()
+    maze.createExits()
 
     win.wait_for_close()
 

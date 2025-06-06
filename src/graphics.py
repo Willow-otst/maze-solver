@@ -75,18 +75,18 @@ class Rect:
         return val == '1'
 
     def draw(self):
-        if self.hasNorth:
-            line = Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y))
-            self.window.drawLine(line, self.fillColor)
-        if self.hasEast:
-            line = Line(Point(self.p2.x, self.p1.y), Point(self.p2.x, self.p2.y))
-            self.window.drawLine(line, self.fillColor)
-        if self.hasSouth:
-            line = Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y))
-            self.window.drawLine(line, self.fillColor)
-        if self.hasWest:
-            line = Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y))
-            self.window.drawLine(line, self.fillColor)
+        north = Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y))
+        east = Line(Point(self.p2.x, self.p1.y), Point(self.p2.x, self.p2.y))
+        south = Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y))
+        west = Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y))
+
+        self.window.drawLine(north, self.fillColor if self.hasNorth else "White")
+        self.window.drawLine(east, self.fillColor if self.hasEast else "White")
+        self.window.drawLine(south, self.fillColor if self.hasSouth else "White")
+        self.window.drawLine(west, self.fillColor if self.hasWest else "White")
+
+
+
 
     def drawMove(self, toCell, undo=False):
         line = Line(self.getCenter(), toCell.getCenter())
