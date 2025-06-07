@@ -34,9 +34,9 @@ def main():
     #rects[4].drawMove(rects[5], True)
     #rects[5].drawMove(rects[6], True)
 
-    maze = Maze(win, 10, 10, 10)
-    maze.drawCells()
+    maze = Maze(win, 10, 10, 10, None)
 
+    #maze.cells[1][0].setWalls("0000", True)
 
     win.wait_for_close()
 

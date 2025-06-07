@@ -50,11 +50,6 @@ class Line:
 
 class Rect:
     def __init__(self, window, p1=Point(-1,-1), p2=Point(-1,-1), walls="1111", fillColor="Black"):
-        if len(walls) != 4:
-            raise ValueError(f"Expected length of 4, got {len(walls)}: {walls!r}\n")
-        if any(char not in '01' for char in walls):
-            raise ValueError(f"Invalid characters in string: {binary_str!r}\n")
-
         self.window = window
 
         self.fillColor = fillColor
@@ -62,13 +57,42 @@ class Rect:
         self.p1 = p1
         self.p2 = p2
 
-        # walls = "0000" indicates existing walls
-        # each char can be 0 or 1 -> a 1 means a wall exitsts
-        # they refer to walls in order: NORTH, EAST, SOUTH, WEST
+        self.hasNorth = True
+        self.hasEast = True
+        self.hasWest = True
+        self.hasSouth = True
+
+        self.setWalls(walls, False)
+        self.visited = False
+
+
+    # walls = "0000" indicates existing walls
+    # each char can be 0 or 1 -> a 1 means a wall exitsts
+    # a - char indicates the current value should carry
+    # they refer to walls in order: NORTH, EAST, SOUTH, WEST
+    def setWalls(self, walls, redraw=False):
+        if len(walls) != 4:
+            raise ValueError(f"Expected length of 4, got {len(walls)}: {walls!r}\n")
+        if any(char not in '01-' for char in walls):
+            raise ValueError(f"Invalid characters in string: {binary_str!r}\n")
+
+        # walls needs to be a 4char string
+        # This checks if a char is - then asigns the value acordingly
+        # it only works on arrays, so we split, do work, then rejoin the string
+        if '-' in walls:
+            walls = list(walls)
+            if walls[0] == '-': walls[0] = f"{int(self.hasNorth)}"
+            if walls[1] == '-': walls[1] = f"{int(self.hasEast)}"
+            if walls[2] == '-': walls[2] = f"{int(self.hasSouth)}"
+            if walls[3] == '-': walls[3] = f"{int(self.hasWest)}"
+            walls = "".join(walls)
+
         self.hasNorth = (self.hasWall(walls[0]))
         self.hasEast = (self.hasWall(walls[1]))
         self.hasSouth = (self.hasWall(walls[2]))
         self.hasWest =  (self.hasWall(walls[3]))
+
+        if redraw: self.draw()
 
     # helper function
     def hasWall(self, val):
@@ -84,9 +108,6 @@ class Rect:
         self.window.drawLine(east, self.fillColor if self.hasEast else "White")
         self.window.drawLine(south, self.fillColor if self.hasSouth else "White")
         self.window.drawLine(west, self.fillColor if self.hasWest else "White")
-
-
-
 
     def drawMove(self, toCell, undo=False):
         line = Line(self.getCenter(), toCell.getCenter())
