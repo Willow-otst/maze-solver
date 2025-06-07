@@ -53,5 +53,12 @@ class TestMaze(unittest.TestCase):
         self.assertEqual(maze.cells[0][0].hasNorth, False)
         self.assertEqual(maze.cells[maze.length-1][maze.height-1].hasSouth, False)
 
+    def test_visited_cells_are_reset(self):
+        maze = Maze(self.window, 5, 5)
+        for i in range(maze.length):
+            for j in range(maze.height):
+                self.assertEqual(maze.cells[i][j].visited, False)
+
+
 if __name__ == "__main__":
     unittest.main()

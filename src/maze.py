@@ -44,6 +44,7 @@ class Maze:
 
     def createPaths(self):
         self.walkCells(0, 0)
+        self.resetVisitedCells()
 
     # recursive helper function
     def walkCells(self, x, y):
@@ -82,6 +83,12 @@ class Maze:
             #currentCell.drawMove(newCell, True)
             self.animate(0.03)
             self.walkCells(newX, newY)
+
+    # helper for createPaths
+    def resetVisitedCells(self):
+        for i in range(self.length):
+            for j in range(self.height):
+                self.cells[i][j].visited = False
 
     def drawCells(self):
         for i in range(self.length):
