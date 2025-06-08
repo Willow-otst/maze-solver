@@ -81,7 +81,7 @@ class Maze:
                 newCell.setWalls("-0--", True)
 
             #currentCell.drawMove(newCell, True)
-            self.animate(0.03)
+            self.animate(0.02)
             self.walkCells(newX, newY)
 
     # helper for createPaths
@@ -94,7 +94,7 @@ class Maze:
         for i in range(self.length):
             for j in range(self.height):
                 self.cells[i][j].draw()
-                self.animate(0.02)
+                self.animate(0.01)
 
     def animate(self, speed):
         self.window.redraw()
